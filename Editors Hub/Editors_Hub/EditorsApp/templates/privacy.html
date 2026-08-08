@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Privacy Policy | Editors Hub</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            min-height: 100vh;
+
+            background:
+                radial-gradient(circle at top left,
+                    rgba(37, 99, 235, .18),
+                    transparent 30%),
+
+                radial-gradient(circle at bottom right,
+                    rgba(147, 51, 234, .18),
+                    transparent 30%),
+
+                #020617;
+
+            font-family: 'Poppins', sans-serif;
+
+            color: white;
+
+            overflow-x: hidden;
+
+            position: relative;
+
+            padding: 60px 20px;
+        }
+
+        /* Animated Background */
+
+        .blur {
+
+            position: absolute;
+
+            border-radius: 50%;
+
+            filter: blur(120px);
+
+            opacity: .35;
+
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .blur1 {
+
+            width: 320px;
+            height: 320px;
+
+            background: #2563eb;
+
+            top: -100px;
+            left: -100px;
+        }
+
+        .blur2 {
+
+            width: 280px;
+            height: 280px;
+
+            background: #9333ea;
+
+            bottom: -80px;
+            right: -80px;
+
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .policy-container {
+
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 950px;
+
+            margin: auto;
+
+            background: rgba(15, 23, 42, .72);
+
+            backdrop-filter: blur(18px);
+
+            -webkit-backdrop-filter: blur(18px);
+
+            border: 1px solid rgba(255, 255, 255, .08);
+
+            border-radius: 32px;
+
+            padding: 45px;
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, .45),
+                inset 0 1px 0 rgba(255, 255, 255, .05);
+
+            animation: fadeUp .7s ease;
+        }
+
+        @keyframes fadeUp {
+
+            from {
+                opacity: 0;
+                transform: translateY(35px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .top-bar {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 30px;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            text-decoration: none;
+
+            background: rgba(255, 255, 255, .06);
+
+            color: white;
+
+            padding: 12px 20px;
+
+            border-radius: 14px;
+
+            font-weight: 600;
+
+            border: 1px solid rgba(255, 255, 255, .08);
+
+            transition: .35s ease;
+        }
+
+        .back-btn:hover {
+
+            background: linear-gradient(45deg, #2563eb, #9333ea);
+
+            color: white;
+
+            transform: translateY(-3px);
+
+            box-shadow: 0 12px 25px rgba(37, 99, 235, .25);
+        }
+
+        .privacy-badge {
+
+            background: rgba(59, 130, 246, .12);
+
+            border: 1px solid rgba(59, 130, 246, .25);
+
+            color: #93c5fd;
+
+            padding: 10px 16px;
+
+            border-radius: 999px;
+
+            font-size: .9rem;
+
+            font-weight: 600;
+        }
+
+        .heading {
+
+            font-size: 3rem;
+
+            font-weight: 800;
+
+            line-height: 1.1;
+
+            margin-bottom: 15px;
+
+            background: linear-gradient(45deg,
+                    #ffffff,
+                    #93c5fd,
+                    #c084fc);
+
+            background-clip: text;
+
+            -webkit-background-clip: text;
+
+            color: transparent;
+        }
+
+        .intro {
+
+            color: rgba(255, 255, 255, .68);
+
+            line-height: 1.8;
+
+            margin-bottom: 40px;
+
+            font-size: 1rem;
+        }
+
+        .policy-card {
+
+            background: rgba(255, 255, 255, .03);
+
+            border: 1px solid rgba(255, 255, 255, .06);
+
+            border-radius: 22px;
+
+            padding: 28px;
+
+            margin-bottom: 24px;
+
+            transition: .35s ease;
+        }
+
+        .policy-card:hover {
+
+            transform: translateY(-4px);
+
+            border-color: rgba(59, 130, 246, .25);
+
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .25);
+        }
+
+        .policy-card h3 {
+
+            font-size: 1.3rem;
+
+            font-weight: 700;
+
+            margin-bottom: 14px;
+
+            color: #ffffff;
+        }
+
+        .policy-card p {
+
+            color: #cbd5e1;
+
+            line-height: 1.9;
+
+            margin-bottom: 0;
+        }
+
+        .policy-list {
+
+            margin: 0;
+
+            padding-left: 18px;
+        }
+
+        .policy-list li {
+
+            margin-bottom: 12px;
+
+            color: #cbd5e1;
+
+            line-height: 1.8;
+        }
+
+        .footer-note {
+
+            margin-top: 35px;
+
+            padding-top: 25px;
+
+            border-top: 1px solid rgba(255, 255, 255, .08);
+
+            color: rgba(255, 255, 255, .45);
+
+            font-size: .92rem;
+
+            text-align: center;
+        }
+
+        @media(max-width:768px) {
+
+            .policy-container {
+                padding: 30px 24px;
+            }
+
+            .heading {
+                font-size: 2.2rem;
+            }
+
+            .top-bar {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Background Blur -->
+
+    <div class="blur blur1"></div>
+
+    <div class="blur blur2"></div>
+
+    <div class="policy-container">
+
+        <div class="top-bar">
+
+            <a href="{% url 'home' %}" class="back-btn">
+
+                ← Back to Home
+
+            </a>
+
+            <div class="privacy-badge">
+
+                Secure & Protected Platform
+
+            </div>
+
+        </div>
+
+        <h1 class="heading">
+
+            Privacy Policy
+
+        </h1>
+
+        <p class="intro">
+
+            Editors Hub values your privacy and is committed to protecting your
+            personal information. This Privacy Policy explains how we collect,
+            use, and protect your data while using our platform and services.
+        </p>
+
+        <div class="policy-card">
+
+            <h3>
+                1. Information We Collect
+            </h3>
+
+            <p>
+                We may collect personal information including usernames,
+                email addresses, profile details, uploaded media,
+                contact information, and communication data necessary
+                to operate the platform effectively.
+            </p>
+
+        </div>
+
+        <div class="policy-card">
+
+            <h3>
+                2. How We Use Your Information
+            </h3>
+
+            <ul class="policy-list">
+
+                <li>To create and manage user accounts.</li>
+
+                <li>To verify editor applications and profiles.</li>
+
+                <li>To improve platform performance and user experience.</li>
+
+                <li>To provide customer support and respond to issues.</li>
+
+                <li>To detect fraud, spam, or suspicious activity.</li>
+
+            </ul>
+
+        </div>
+
+        <div class="policy-card">
+
+            <h3>
+                3. Uploaded Content
+            </h3>
+
+            <p>
+                Media files, profile images, and portfolio works uploaded
+                by users may be publicly visible on the platform. Users are
+                responsible for ensuring they own or have permission to use
+                uploaded content.
+            </p>
+
+        </div>
+
+        <div class="policy-card">
+
+            <h3>
+                4. Data Protection
+            </h3>
+
+            <p>
+                We implement security measures to protect user data from
+                unauthorized access, misuse, or disclosure. However,
+                no online platform can guarantee complete security.
+            </p>
+
+        </div>
+
+        <div class="policy-card">
+
+            <h3>
+                5. Third-Party Services
+            </h3>
+
+            <p>
+                Editors Hub may use trusted third-party services such as
+                email providers, hosting services, analytics tools,
+                and payment gateways to improve platform functionality.
+            </p>
+
+        </div>
+
+        <div class="policy-card">
+
+            <h3>
+                6. Cookies & Analytics
+            </h3>
+
+            <p>
+                We may use cookies or similar technologies to remember
+                preferences, improve functionality, and analyze platform usage
+                for better performance and user experience.
+            </p>
+
+        </div>
+
+        <div class="policy-card">
+
+            <h3>
+                7. User Responsibilities
+            </h3>
+
+            <ul class="policy-list">
+
+                <li>Keep your login credentials secure.</li>
+
+                <li>Do not share sensitive information publicly.</li>
+
+                <li>Report suspicious activity immediately.</li>
+
+                <li>Use the platform responsibly and legally.</li>
+
+            </ul>
+
+        </div>
+
+        <div class="policy-card">
+
+            <h3>
+                8. Account Removal
+            </h3>
+
+            <p>
+                Editors Hub reserves the right to suspend or permanently
+                remove accounts involved in fraud, abuse, illegal activities,
+                copyright violations, or harmful behavior.
+            </p>
+
+        </div>
+
+        <div class="policy-card">
+
+            <h3>
+                9. Policy Updates
+            </h3>
+
+            <p>
+                We may update this Privacy Policy periodically to improve
+                transparency, comply with legal requirements, or reflect
+                platform changes. Continued use of Editors Hub means you
+                accept the updated policy.
+            </p>
+
+        </div>
+
+        <div class="footer-note">
+
+            Editors Hub © 2026 • Your privacy and security matter to us.
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
