@@ -148,10 +148,16 @@ LOGOUT_REDIRECT_URL = '/login/'
 
 # EMAIL CONFIGURATION (Gmail SMTP)
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-EMAIL_HOST_USER = 'editors.hub.page@gmail.com'
-EMAIL_HOST_PASSWORD = 'rlnu ydza xtfo faab'
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 587))
+
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
+EMAIL_HOST_USER = os.environ.get("editors.hub.page@gmail.com")
+EMAIL_HOST_PASSWORD = os.environ.get("rlnu ydza xtfo faab")
+
+EMAIL_TIMEOUT = 20
+
