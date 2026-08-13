@@ -156,8 +156,8 @@ EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 587))
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
-EMAIL_HOST_USER = os.environ.get("editors.hub.page@gmail.com")
-EMAIL_HOST_PASSWORD = os.environ.get("rlnu ydza xtfo faab")
+EMAIL_HOST_USER = os.environ.get("Gmail")
+EMAIL_HOST_PASSWORD = os.environ.get("App Password")
 
 EMAIL_TIMEOUT = 20
 
