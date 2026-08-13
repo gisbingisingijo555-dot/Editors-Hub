@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Editors Hub Approval</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            background: #0f172a;
+
+            padding: 40px 20px;
+
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+
+            max-width: 650px;
+
+            margin: auto;
+
+            background: #ffffff;
+
+            border-radius: 28px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.18),
+                0 8px 25px rgba(59, 130, 246, 0.12);
+
+            animation: fadeIn 0.8s ease;
+        }
+
+        .header {
+
+            position: relative;
+
+            background:
+                radial-gradient(circle at top right,
+                    rgba(255, 255, 255, 0.18),
+                    transparent 40%),
+                linear-gradient(135deg, #2563eb, #7c3aed);
+
+            padding: 55px 30px;
+
+            text-align: center;
+
+            overflow: hidden;
+        }
+
+        .header::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border-radius: 50%;
+
+            top: -90px;
+            right: -70px;
+        }
+
+        .header::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 160px;
+            height: 160px;
+
+            background: rgba(255, 255, 255, 0.06);
+
+            border-radius: 50%;
+
+            bottom: -70px;
+            left: -50px;
+        }
+
+        .success-icon {
+
+            width: 90px;
+            height: 90px;
+
+            margin: 0 auto 20px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.18);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 42px;
+
+            backdrop-filter: blur(10px);
+
+            border: 1px solid rgba(255, 255, 255, 0.15);
+
+            position: relative;
+
+            z-index: 2;
+
+            animation: pulse 2s infinite;
+        }
+
+        .header h2 {
+
+            color: white;
+
+            font-size: 34px;
+
+            font-weight: 700;
+
+            margin-bottom: 10px;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+        .header p {
+
+            color: rgba(255, 255, 255, 0.88);
+
+            font-size: 15px;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+        .content {
+
+            padding: 45px;
+        }
+
+        .welcome-box {
+
+            background: linear-gradient(135deg,
+                    rgba(37, 99, 235, 0.06),
+                    rgba(124, 58, 237, 0.06));
+
+            border: 1px solid rgba(37, 99, 235, 0.12);
+
+            padding: 28px;
+
+            border-radius: 22px;
+
+            margin-bottom: 30px;
+        }
+
+        .welcome-box h3 {
+
+            color: #0f172a;
+
+            font-size: 24px;
+
+            margin-bottom: 12px;
+
+            font-weight: 700;
+        }
+
+        .welcome-box p {
+
+            color: #475569;
+
+            line-height: 1.8;
+
+            font-size: 15px;
+        }
+
+        .features {
+
+            margin-top: 30px;
+        }
+
+        .feature {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 16px;
+
+            padding: 18px;
+
+            border-radius: 18px;
+
+            background: #f8fafc;
+
+            margin-bottom: 15px;
+
+            border: 1px solid #e2e8f0;
+
+            transition: .3s ease;
+        }
+
+        .feature:hover {
+
+            transform: translateY(-3px);
+
+            background: white;
+
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        .feature-icon {
+
+            min-width: 48px;
+            height: 48px;
+
+            border-radius: 14px;
+
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: white;
+
+            font-size: 20px;
+
+            font-weight: bold;
+        }
+
+        .feature-text h4 {
+
+            color: #0f172a;
+
+            font-size: 16px;
+
+            margin-bottom: 6px;
+
+            font-weight: 600;
+        }
+
+        .feature-text p {
+
+            color: #64748b;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+        .btn-wrapper {
+
+            text-align: center;
+
+            margin-top: 40px;
+        }
+
+        .btn {
+
+            display: inline-block;
+
+            padding: 16px 34px;
+
+            border-radius: 16px;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            color: white;
+
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+
+            box-shadow:
+                0 12px 30px rgba(37, 99, 235, 0.28);
+
+            transition: .35s ease;
+        }
+
+        .btn:hover {
+
+            transform: translateY(-4px) scale(1.02);
+
+            box-shadow:
+                0 18px 40px rgba(37, 99, 235, 0.35);
+        }
+
+        .footer {
+
+            text-align: center;
+
+            padding: 30px 20px;
+
+            border-top: 1px solid #e2e8f0;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+
+            background: #f8fafc;
+        }
+
+        .footer strong {
+            color: #2563eb;
+        }
+
+        @keyframes fadeIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.06);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @media(max-width: 768px) {
+
+            .content {
+                padding: 30px 22px;
+            }
+
+            .header {
+                padding: 45px 20px;
+            }
+
+            .header h2 {
+                font-size: 28px;
+            }
+
+            .welcome-box h3 {
+                font-size: 22px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+            <h2>
+                Congratulations {{ username }}!
+            </h2>
+
+            <p>
+                Your editor profile has been officially approved
+            </p>
+
+        </div>
+
+        <div class="content">
+
+            <div class="welcome-box">
+
+                <h3>
+                    Welcome to Editors Hub 🚀
+                </h3>
+
+                <p>
+                    Your profile is now live and visible to clients. You can start
+                    showcasing your creative work, receiving messages, and building
+                    your professional reputation on Editors Hub.
+                </p>
+
+            </div>
+
+            <div class="features">
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        💬
+                    </div>
+
+                    <div class="feature-text">
+
+                        <h4>
+                            Receive Client Messages
+                        </h4>
+
+                        <p>
+                            Clients can now directly contact you through your profile
+                            and discuss projects instantly.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        ⭐
+                    </div>
+
+                    <div class="feature-text">
+
+                        <h4>
+                            Build Your Reputation
+                        </h4>
+
+                        <p>
+                            Receive ratings and reviews from users to increase trust
+                            and grow your profile visibility.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        🎨
+                    </div>
+
+                    <div class="feature-text">
+
+                        <h4>
+                            Showcase Your Portfolio
+                        </h4>
+
+                        <p>
+                            Upload your editing works and attract more clients with a
+                            professional portfolio.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="btn-wrapper">
+
+                <a href="http://127.0.0.1:8000/" class="btn">
+
+                    Open Dashboard
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="footer">
+
+            © 2026 <strong>Editors Hub</strong> • Connect Creators & Editors
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

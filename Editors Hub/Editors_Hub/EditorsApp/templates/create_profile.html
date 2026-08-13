@@ -1,0 +1,990 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Create Editor Profile</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+            background:
+                radial-gradient(circle at top left, rgba(59, 130, 246, 0.15), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.12), transparent 30%),
+                #020617;
+
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+
+            user-select: none;
+            -webkit-user-select: none;
+
+            overflow-x: hidden;
+        }
+
+        input,
+        textarea,
+        select {
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
+        ::selection {
+            background: transparent;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: rgba(59, 130, 246, 0.08);
+            top: -180px;
+            left: -180px;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            background: rgba(139, 92, 246, 0.08);
+            bottom: -180px;
+            right: -180px;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+        }
+
+        .container-box {
+            max-width: 1100px;
+            margin: auto;
+            padding: 35px 20px 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* TOP BAR */
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .logo-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-circle {
+            width: 58px;
+            height: 58px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #2563eb, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.35);
+        }
+
+        .title-area h2 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .title-area p {
+            margin: 0;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .home-btn {
+            border: none;
+            padding: 12px 20px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.25);
+        }
+
+        .home-btn:hover {
+            transform: translateY(-3px);
+            color: white;
+            box-shadow: 0 14px 28px rgba(59, 130, 246, 0.35);
+        }
+
+        /* CARD */
+
+        .card-box {
+            background: rgba(15, 23, 42, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 28px;
+            padding: 28px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(18px);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+            transition: 0.35s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-box::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(135deg,
+                    rgba(59, 130, 246, 0.04),
+                    rgba(139, 92, 246, 0.02));
+            opacity: 0;
+            transition: 0.35s;
+        }
+
+        .card-box:hover::before {
+            opacity: 1;
+        }
+
+        .card-box:hover {
+            transform: translateY(-4px);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .card-box>* {
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #60a5fa;
+        }
+
+        /* PROFILE */
+
+        .profile-upload-box {
+            text-align: center;
+        }
+
+        .profile-preview {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #3b82f6;
+            cursor: pointer;
+            transition: 0.4s;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.35);
+        }
+
+        .profile-preview:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.55);
+        }
+
+        .upload-text {
+            margin-top: 15px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        /* FORM */
+
+        label {
+            margin-bottom: 10px;
+            color: #dbeafe;
+            font-weight: 600;
+            display: block;
+        }
+
+        .form-control,
+        input,
+        textarea,
+        select {
+            width: 100%;
+            background: rgba(2, 6, 23, 0.9) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 18px !important;
+            color: white !important;
+            padding: 14px 16px !important;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .form-control:focus,
+        input:focus,
+        textarea:focus,
+        select:focus {
+            background: rgba(15, 23, 42, 0.95) !important;
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important;
+        }
+
+        .form-control::placeholder {
+            color: #94a3b8;
+        }
+
+        /* CATEGORY */
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 18px;
+        }
+
+        .cat-item {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cat-item input {
+            display: none;
+        }
+
+        .cat-design {
+            min-height: 70px;
+            border-radius: 20px;
+            background: rgba(2, 6, 23, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 18px;
+            transition: 0.35s;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .cat-design::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(135deg,
+                    rgba(59, 130, 246, 0.15),
+                    rgba(139, 92, 246, 0.12));
+            opacity: 0;
+            transition: 0.35s;
+        }
+
+        .cat-name {
+            font-weight: 600;
+            color: #e2e8f0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .check-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: transparent;
+            background: rgba(255, 255, 255, 0.03);
+            transition: 0.35s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cat-item:hover .cat-design {
+            transform: translateY(-4px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 12px 28px rgba(59, 130, 246, 0.16);
+        }
+
+        .cat-item:hover .cat-design::before {
+            opacity: 1;
+        }
+
+        .cat-item input:checked+.cat-design {
+            background: linear-gradient(135deg,
+                    rgba(37, 99, 235, 0.96),
+                    rgba(124, 58, 237, 0.95));
+            border-color: transparent;
+            box-shadow: 0 14px 30px rgba(59, 130, 246, 0.3);
+            transform: scale(1.03);
+        }
+
+        .cat-item input:checked+.cat-design .check-circle {
+            background: white;
+            border-color: white;
+            color: #2563eb;
+        }
+
+        /* WORK PREVIEW */
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 18px;
+            margin-top: 24px;
+        }
+
+        .preview-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            background: rgba(2, 6, 23, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: 0.35s;
+        }
+
+        .preview-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.35);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .preview-item img,
+        .preview-item video {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 34px;
+            height: 34px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(220, 38, 38, 0.9);
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .remove-btn:hover {
+            transform: scale(1.08);
+        }
+
+        /* TERMS */
+
+        .terms-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            background: rgba(15, 23, 42, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            padding: 18px 20px;
+            border-radius: 20px;
+
+            margin-bottom: 24px;
+        }
+
+        .terms-box input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            accent-color: #3b82f6;
+            cursor: pointer;
+        }
+
+        .terms-text {
+            color: #cbd5e1;
+            font-size: 15px;
+        }
+
+        .terms-text a {
+            color: #60a5fa;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .terms-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* BUTTON */
+
+        .btn-save {
+            width: 100%;
+            border: none;
+            border-radius: 20px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, #2563eb, #8b5cf6);
+            transition: 0.35s;
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.25);
+        }
+
+        .btn-save:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 35px rgba(59, 130, 246, 0.38);
+        }
+
+        .btn-save:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        /* MOBILE */
+
+        @media(max-width:768px) {
+
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .logo-title {
+                width: 100%;
+            }
+
+            .home-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            }
+
+            .card-box {
+                padding: 22px;
+            }
+
+            .title-area h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* ANIMATION */
+
+        .fade-up {
+            animation: fadeUp 0.7s ease;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .language-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .lang-item {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .lang-item input {
+            display: none;
+        }
+
+        .lang-box {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 14px;
+            background: rgba(2, 6, 23, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: 0.3s;
+            user-select: none;
+        }
+
+        /* hover effect */
+        .lang-item:hover .lang-box {
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* checked state */
+        .lang-item input:checked+.lang-box {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.25);
+            transform: scale(1.05);
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container-box">
+
+        <!-- TOP -->
+
+        <div class="top-bar fade-up">
+
+            <div class="logo-title">
+
+                <div class="logo-circle">
+                    <i class="fa-solid fa-film"></i>
+                </div>
+
+                <div class="title-area">
+                    <h2>Create Editor Profile</h2>
+                    <p>Build your professional editor presence</p>
+                </div>
+
+            </div>
+
+            <a href="{% url 'home' %}" class="home-btn">
+                🏠 Home
+            </a>
+
+        </div>
+
+        <!-- FORM -->
+
+        <form id="uploadForm" method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <!-- PROFILE -->
+
+            <div class="card-box profile-upload-box fade-up">
+
+                <label for="fileInput">
+
+                    {% if form.instance.profile_image %}
+                    <img src="{{ form.instance.profile_image.url }}" id="preview" class="profile-preview">
+                    {% else %}
+                    <img src="https://via.placeholder.com/160" id="preview" class="profile-preview">
+                    {% endif %}
+
+                </label>
+
+                <input type="file" name="profile_image" id="fileInput" hidden>
+
+                <div class="upload-text">
+                    Click image to upload your profile photo
+                </div>
+
+            </div>
+
+            <!-- BASIC INFO -->
+
+            <div class="card-box fade-up">
+
+                <div class="section-title">
+                    <i class="fa-solid fa-user"></i>
+                    Basic Information
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-4">
+                        <label>Name</label>
+                        {{ form.name }}
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label>Email</label>
+                        {{ form.email }}
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label>Age</label>
+                        {{ form.age }}
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label>Gender</label>
+                        {{ form.gender }}
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label>Phone</label>
+                        {{ form.phone }}
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label>Price</label>
+                        {{ form.price }}
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label>ID Proof</label>
+                        {{ form.id_proof }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-box fade-up">
+
+                <div class="section-title">
+                    <i class="fa-solid fa-circle-info"></i>
+                    Professional Details
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12 mb-4">
+                        <label>Bio</label>
+                        {{ form.bio }}
+                    </div>
+
+                    <div class="col-md-12 mb-4">
+
+                        <label class="form-label mb-3">Languages Known</label>
+
+                        <div class="language-grid">
+
+                            {% for checkbox in form.language %}
+
+                            <label class="lang-item">
+
+                                {{ checkbox.tag }}
+
+                                <span class="lang-box">
+                                    {{ checkbox.choice_label }}
+                                </span>
+
+                            </label>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label>Experience (Years)</label>
+                        {{ form.experience_years }}
+                    </div>
+
+                    <div class="col-md-12 mb-4">
+                        <label>Softwares</label>
+                        {{ form.softwares }}
+                    </div>
+
+                    <div class="col-md-12 mb-4">
+                        <label>Address</label>
+                        {{ form.address }}
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label>Portfolio</label>
+                        {{ form.portfolio }}
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- CATEGORY -->
+
+            <div class="card-box fade-up">
+
+                <div class="section-title">
+                    <i class="fa-solid fa-layer-group"></i>
+                    Select Categories
+                </div>
+
+                <div class="category-grid">
+
+                    {% for checkbox in form.category %}
+
+                    <label class="cat-item">
+
+                        {{ checkbox.tag }}
+
+                        <div class="cat-design">
+
+                            <div class="cat-name">
+                                {{ checkbox.choice_label }}
+                            </div>
+
+                            <div class="check-circle">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+
+                        </div>
+
+                    </label>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <!-- WORKS -->
+
+            <div class="card-box fade-up">
+
+                <div class="section-title">
+                    <i class="fa-solid fa-photo-film"></i>
+                    Upload Works
+                </div>
+
+                <input type="file" name="works" id="worksInput" multiple class="form-control">
+
+                <div id="worksPreview" class="preview-grid"></div>
+
+            </div>
+
+            <!-- TERMS -->
+
+            <div class="terms-box fade-up">
+
+                <input type="checkbox" id="termsCheck">
+
+                <div class="terms-text">
+
+                    I agree to the
+
+                    <a href="{% url 'terms' %}" target="_blank">
+
+                        Terms & Conditions
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- BUTTON -->
+
+            <button type="submit" id="submitBtn" class="btn-save fade-up" disabled>
+
+                🚀 Create Profile
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <script>
+
+        // PROFILE IMAGE PREVIEW
+
+        document.getElementById("fileInput").addEventListener("change", function (event) {
+
+            const file = event.target.files[0];
+
+            if (!file) return;
+
+            const reader = new FileReader();
+
+            reader.onload = function () {
+
+                document.getElementById('preview').src = reader.result;
+
+            };
+
+            reader.readAsDataURL(file);
+
+        });
+
+        // WORKS PREVIEW
+
+        let selectedFiles = [];
+
+        const input = document.getElementById("worksInput");
+
+        const preview = document.getElementById("worksPreview");
+
+        input.addEventListener("change", function () {
+
+            selectedFiles = Array.from(this.files);
+
+            renderPreview();
+
+        });
+
+        function renderPreview() {
+
+            preview.innerHTML = "";
+
+            selectedFiles.forEach((file, index) => {
+
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+
+                    const wrapper = document.createElement("div");
+
+                    wrapper.classList.add("preview-item");
+
+                    let element;
+
+                    if (file.type.startsWith("video")) {
+
+                        element = document.createElement("video");
+
+                        element.controls = true;
+
+                    } else {
+
+                        element = document.createElement("img");
+
+                    }
+
+                    element.src = e.target.result;
+
+                    const removeBtn = document.createElement("button");
+
+                    removeBtn.innerHTML = "×";
+
+                    removeBtn.classList.add("remove-btn");
+
+                    removeBtn.onclick = function () {
+
+                        selectedFiles.splice(index, 1);
+
+                        updateInput();
+
+                        renderPreview();
+
+                    };
+
+                    wrapper.appendChild(element);
+
+                    wrapper.appendChild(removeBtn);
+
+                    preview.appendChild(wrapper);
+
+                };
+
+                reader.readAsDataURL(file);
+
+            });
+
+        }
+
+        function updateInput() {
+
+            const dataTransfer = new DataTransfer();
+
+            selectedFiles.forEach(file => dataTransfer.items.add(file));
+
+            input.files = dataTransfer.files;
+
+        }
+
+        // TERMS CHECKBOX
+
+        const termsCheck = document.getElementById("termsCheck");
+
+        const submitBtn = document.getElementById("submitBtn");
+
+        termsCheck.addEventListener("change", function () {
+
+            submitBtn.disabled = !this.checked;
+
+        });
+
+        // DOUBLE SUBMIT PREVENT
+
+        document.getElementById("uploadForm").addEventListener("submit", function () {
+
+            const btn = document.getElementById("submitBtn");
+
+            btn.disabled = true;
+
+            btn.innerHTML = "Please wait...";
+
+        });
+
+        // BLOCK SELECTION
+
+        document.addEventListener('dblclick', function (e) {
+
+            if (!e.target.closest('input, textarea, select')) {
+
+                e.preventDefault();
+
+            }
+
+        });
+
+        document.addEventListener('mousedown', function (e) {
+
+            if (!e.target.closest('input, textarea, select')) {
+
+                e.preventDefault();
+
+            }
+
+        });
+
+        document.addEventListener('selectstart', function (e) {
+
+            if (!e.target.closest('input, textarea, select')) {
+
+                e.preventDefault();
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>
