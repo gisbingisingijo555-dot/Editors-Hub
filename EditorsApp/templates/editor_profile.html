@@ -1,0 +1,1002 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ editor.name }} | Editor Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #020617;
+            --card: rgba(15, 23, 42, 0.78);
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --blue: #3b82f6;
+            --purple: #8b5cf6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(59, 130, 246, 0.12), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.12), transparent 30%),
+                var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* NAVBAR */
+
+        .top-bar {
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(2, 6, 23, 0.92);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            backdrop-filter: blur(18px);
+        }
+
+        .nav-btn {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s ease;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+        }
+
+        .btn-home {
+            background: linear-gradient(45deg, var(--blue), var(--purple));
+            color: white;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        /* CONTAINER */
+
+        .main-container {
+            width: 100%;
+            max-width: 1350px;
+            margin: auto;
+            padding: 30px 18px 60px;
+        }
+
+        /* HEADER */
+
+        .editor-header {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            padding: 35px;
+            border-radius: 30px;
+            background: rgba(15, 23, 42, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+            animation: fadeUp 0.6s ease;
+        }
+
+        .editor-header::before {
+            content: "";
+            position: absolute;
+            width: 340px;
+            height: 340px;
+            background: rgba(59, 130, 246, 0.12);
+            border-radius: 50%;
+            top: -120px;
+            right: -120px;
+            filter: blur(45px);
+        }
+
+        .editor-img {
+            width: 135px;
+            height: 135px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--blue);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+            transition: 0.4s;
+            z-index: 2;
+            position: relative;
+        }
+
+        .editor-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.6);
+        }
+
+        .editor-info {
+            flex: 1;
+            z-index: 2;
+        }
+
+        .editor-info h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .editor-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 15px;
+        }
+
+        .meta-box {
+            padding: 10px 16px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 14px;
+            color: #dbeafe;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .rating-box {
+            margin-top: 16px;
+            font-size: 18px;
+            color: gold;
+            font-weight: 700;
+        }
+
+        .msg-btn {
+            margin-top: 18px;
+            padding: 13px 24px;
+            border-radius: 16px;
+            border: none;
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.25);
+        }
+
+        .msg-btn:hover {
+            transform: translateY(-3px);
+            color: white;
+            box-shadow: 0 14px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        /* CATEGORY TAGS */
+
+        .category-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .tag {
+            position: relative;
+            overflow: hidden;
+            padding: 10px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            color: #bfdbfe;
+            transition: 0.3s;
+        }
+
+        .tag:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(45deg, var(--blue), var(--purple));
+            color: white;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        /* CARD */
+
+        .card-box {
+            background: rgba(15, 23, 42, 0.82);
+            border-radius: 26px;
+            padding: 28px;
+            margin-top: 26px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.22);
+            animation: fadeUp 0.7s ease;
+        }
+
+        .card-box h5 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        /* ABOUT */
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .about-item {
+            padding: 18px;
+            border-radius: 18px;
+            background: rgba(2, 6, 23, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .about-item small {
+            color: var(--muted);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .about-item strong {
+            font-size: 15px;
+            color: white;
+        }
+
+        /* WORKS */
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        .work-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 22px;
+            background: rgba(2, 6, 23, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: 0.35s;
+            cursor: pointer;
+        }
+
+        .work-item:hover {
+            transform: translateY(-6px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.18);
+        }
+
+        .work-item img,
+        .work-item video {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+
+        /* REVIEW FORM */
+
+        .form-control {
+            background: rgba(2, 6, 23, 0.85) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            color: white !important;
+            border-radius: 16px !important;
+            padding: 14px !important;
+        }
+
+        .form-control:focus {
+            border-color: var(--blue) !important;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, var(--blue), var(--purple));
+            border: none;
+            border-radius: 16px;
+            padding: 14px 24px;
+            font-weight: 700;
+            color: white;
+            transition: 0.3s;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.25);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.35);
+        }
+
+        /* STARS */
+
+        .star-rating {
+            direction: rtl;
+            display: inline-flex;
+            gap: 8px;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 34px;
+            color: #334155;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover~label,
+        .star-rating input:checked~label {
+            color: gold;
+            transform: scale(1.08);
+        }
+
+        /* REVIEWS */
+
+        .review-box {
+            padding: 18px;
+            border-radius: 18px;
+            margin-bottom: 16px;
+            background: rgba(2, 6, 23, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+        }
+
+        .review-box:hover {
+            transform: translateY(-3px);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .review-top {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .review-user {
+            font-weight: 700;
+            color: #93c5fd;
+        }
+
+        .review-date {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .review-rating {
+            color: gold;
+            margin-bottom: 8px;
+        }
+
+        .review-text {
+            color: #d1d5db;
+            line-height: 1.7;
+        }
+
+        /* ALERT */
+
+        .message-box {
+            position: fixed;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            width: 90%;
+            max-width: 420px;
+        }
+
+        .message-alert {
+            background: linear-gradient(45deg, #22c55e, #16a34a);
+            color: white;
+            padding: 15px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            font-weight: 600;
+            animation: fadeDown 0.5s ease;
+        }
+
+        /* MODAL */
+
+        .modal-content {
+            background: transparent;
+            border: none;
+        }
+
+        .modal-body img,
+        .modal-body video {
+            border-radius: 20px;
+            max-height: 85vh;
+            object-fit: contain;
+        }
+
+        /* ANIMATIONS */
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+
+        /* MOBILE */
+
+        @media(max-width:768px) {
+
+            .editor-header {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 40px;
+            }
+
+            .editor-meta {
+                justify-content: center;
+            }
+
+            .works-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .work-item img,
+            .work-item video {
+                height: 180px;
+            }
+
+            .top-bar {
+                padding: 15px;
+            }
+
+            .editor-info h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        .request-btn {
+            margin-top: 18px;
+            padding: 13px 24px;
+            border-radius: 16px;
+            border: none;
+            background: #3b82f6;
+            /* solid blue */
+            color: white;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.25);
+        }
+
+        .request-btn:hover {
+            background: #2563eb;
+            /* darker blue on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px rgba(59, 130, 246, 0.4);
+            color: white;
+        }
+
+        /* BUTTON CONTAINER */
+        .action-buttons {
+            display: flex;
+            gap: 14px;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        /* REMOVE TOP MARGIN */
+        .msg-btn,
+        .request-btn {
+            margin-top: 0 !important;
+            height: 48px;
+        }
+
+        /* DISABLED BUTTON FIX */
+        .disabled-btn {
+            background: rgba(148, 163, 184, 0.25) !important;
+            color: #cbd5e1 !important;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+
+    <div class="top-bar">
+
+        <a href="{% url 'editors_list' %}" class="nav-btn btn-back">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back
+        </a>
+
+        <a href="{% url 'home' %}" class="nav-btn btn-home">
+            <i class="fa-solid fa-house"></i>
+            Home
+        </a>
+
+    </div>
+
+    <div class="main-container">
+
+        <!-- SUCCESS MESSAGE -->
+
+        {% if messages %}
+        <div id="msgBox" class="message-box">
+
+            {% for message in messages %}
+
+            <div class="message-alert">
+                {{ message }}
+            </div>
+
+            {% endfor %}
+
+        </div>
+        {% endif %}
+
+        <!-- HEADER -->
+
+        <div class="editor-header">
+
+            {% if editor.profile_image %}
+            <img src="{{ editor.profile_image.url }}" class="editor-img">
+            {% else %}
+            <img src="https://via.placeholder.com/120" class="editor-img">
+            {% endif %}
+
+            <div class="editor-info">
+
+                <h2>{{ editor.name }}</h2>
+
+                <div class="rating-box">
+                    ⭐ {{ editor.average_rating|floatformat:1 }} / 5
+                    <small>({{ editor.total_reviews }} reviews)</small>
+                </div>
+
+                <div class="category-tags">
+
+                    {% for cat in editor.category.all %}
+                    <span class="tag">
+                        ✨ {{ cat.name }}
+                    </span>
+                    {% endfor %}
+
+                </div>
+
+
+
+                {% if editor.language.all %}
+                <div class="category-tags mt-2">
+
+                    {% for lang in editor.language.all %}
+                    <span class="tag">
+                        🌐 {{ lang.name }}
+                    </span>
+                    {% endfor %}
+
+                </div>
+                {% endif %}
+
+                {% if user.is_authenticated and user != editor.user %}
+
+                <div class="action-buttons">
+
+                    <a href="{% url 'inbox' %}?user={{ editor.user.id }}" class="msg-btn">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Message
+                    </a>
+
+                    {% if has_active_request %}
+                    <button class="btn btn-secondary request-btn disabled-btn" disabled>
+                        <i class="fa-solid fa-lock me-2"></i>
+                        Active Request
+                    </button>
+                    {% else %}
+                    <button class="request-btn" data-bs-toggle="modal" data-bs-target="#requestModal">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Request
+                    </button>
+                    {% endif %}
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <!-- ABOUT -->
+
+        <div class="card-box">
+
+            <h5>
+                <i class="fa-solid fa-circle-info"></i>
+                About Editor
+            </h5>
+
+            <div class="about-grid">
+
+                <div class="about-item">
+                    <small>Editor Name</small>
+                    <strong>{{ editor.name }}</strong>
+                </div>
+
+                <div class="about-item">
+                    <small>Gender</small>
+                    <strong>{{ editor.gender }}</strong>
+                </div>
+
+                <div class="about-item">
+                    <small>Price</small>
+                    <strong>{{ editor.price }}</strong>
+                </div>
+
+                <div class="about-item">
+                    <small>Experience</small>
+                    <strong>{{ editor.experience_years }}</strong>
+                </div>
+
+                <div class="about-item">
+                    <small>Software Skills</small>
+
+                    {% if editor.softwares %}
+                    <strong>{{ editor.softwares }}</strong>
+                    {% else %}
+                    <strong>Not Provided</strong>
+                    {% endif %}
+                </div>
+
+                <div class="about-item">
+                    <small>Portfolio</small>
+
+                    {% if editor.portfolio %}
+                    <strong>
+                        <a href="{{ editor.portfolio }}" target="_blank" style="color:#60a5fa; text-decoration:none;">
+                            View Portfolio
+                        </a>
+                    </strong>
+                    {% else %}
+                    <strong>Not Provided</strong>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card-box">
+
+            <h5>
+                <i class="fa-solid fa-user-pen"></i>
+                Bio
+            </h5>
+
+            {% if editor.bio %}
+            <p style="
+            color:#d1d5db;
+            line-height:1.9;
+            margin:0;
+            white-space:pre-line;
+        ">
+                {{ editor.bio }}
+            </p>
+            {% else %}
+            <p class="text-secondary mb-0">
+                No bio added yet.
+            </p>
+            {% endif %}
+
+        </div>
+
+
+        <!-- WORKS -->
+
+        <div class="card-box">
+
+            <h5>
+                <i class="fa-solid fa-photo-film"></i>
+                Editor Works
+            </h5>
+
+            <div class="works-grid">
+
+                {% for work in editor.works.all %}
+
+                <div class="work-item">
+
+                    {% if work.is_video %}
+
+                    <video onclick="openMedia('{{ work.media.url }}', true)">
+                        <source src="{{ work.media.url }}">
+                    </video>
+
+                    {% else %}
+
+                    <img src="{{ work.media.url }}" onclick="openMedia('{{ work.media.url }}', false)">
+
+                    {% endif %}
+
+                </div>
+
+                {% empty %}
+
+                <p>No works uploaded yet</p>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <!-- REVIEW FORM -->
+
+        <div class="card-box">
+
+            <h5>
+                <i class="fa-solid fa-star"></i>
+                Rate & Review
+            </h5>
+
+            <form method="POST" action="{% url 'rate_editor' editor.id %}">
+
+                {% csrf_token %}
+
+                <div class="star-rating mb-3">
+
+                    <input type="radio" name="rating" value="5" id="star5">
+                    <label for="star5">★</label>
+
+                    <input type="radio" name="rating" value="4" id="star4">
+                    <label for="star4">★</label>
+
+                    <input type="radio" name="rating" value="3" id="star3">
+                    <label for="star3">★</label>
+
+                    <input type="radio" name="rating" value="2" id="star2">
+                    <label for="star2">★</label>
+
+                    <input type="radio" name="rating" value="1" id="star1">
+                    <label for="star1">★</label>
+
+                </div>
+
+                <textarea name="comment" class="form-control" rows="4" placeholder="Write your review..."></textarea>
+
+                <button type="submit" class="submit-btn mt-4">
+                    Submit Review
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- REVIEWS -->
+
+        <div class="card-box">
+
+            <h5>
+                <i class="fa-solid fa-comments"></i>
+                Reviews
+            </h5>
+
+            {% for review in editor.ratings.all %}
+
+            <div class="review-box">
+
+                <div class="review-top">
+
+                    <div class="review-user">
+                        {{ review.user.username }}
+                    </div>
+
+                    <div class="review-date">
+                        {{ review.created_at|date:"M d, Y" }}
+                    </div>
+
+                </div>
+
+                <div class="review-rating">
+                    ⭐ {{ review.rating }}/5
+                </div>
+
+                {% if review.comment %}
+
+                <div class="review-text">
+                    {{ review.comment }}
+                </div>
+
+                {% endif %}
+
+            </div>
+
+            {% empty %}
+
+            <p>No reviews yet</p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <!-- MEDIA MODAL -->
+
+    <div class="modal fade" id="mediaModal" tabindex="-1">
+
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+
+            <div class="modal-content">
+
+                <div class="modal-body text-center">
+
+                    <img id="modalImage" class="img-fluid d-none">
+
+                    <video id="modalVideo" controls class="w-100 d-none">
+                        <source id="videoSource">
+                    </video>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="requestModal" tabindex="-1">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content" style="background:#0f172a; border-radius:20px;">
+
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-white">Request Editing</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form method="POST" action="{% url 'send_edit_request' editor.user.id %}">
+                        {% csrf_token %}
+
+                        <!-- CATEGORY SELECT -->
+                        <label class="text-white mb-2">Select Category</label>
+                        <select name="category" class="form-control mb-3" required>
+                            <option value="">Choose category</option>
+
+                            {% for cat in editor.category.all %}
+                            <option value="{{ cat.id }}">{{ cat.name }}</option>
+                            {% endfor %}
+
+                        </select>
+
+                        <!-- DESCRIPTION -->
+                        <label class="text-white mb-2">Description</label>
+                        <textarea name="message" class="form-control mb-3"
+                            placeholder="Describe your editing request..." required></textarea>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            Send Request
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- SCRIPT -->
+
+    <script>
+
+        function openMedia(url, isVideo) {
+
+            const img = document.getElementById('modalImage');
+            const video = document.getElementById('modalVideo');
+            const source = document.getElementById('videoSource');
+
+            if (isVideo) {
+
+                img.classList.add('d-none');
+                video.classList.remove('d-none');
+
+                source.src = url;
+                video.load();
+
+            } else {
+
+                video.classList.add('d-none');
+                img.classList.remove('d-none');
+
+                img.src = url;
+            }
+
+            new bootstrap.Modal(
+                document.getElementById('mediaModal')
+            ).show();
+        }
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- AUTO HIDE MESSAGE -->
+
+    <script>
+
+        setTimeout(() => {
+
+            let box = document.getElementById("msgBox");
+
+            if (box) {
+
+                box.style.transition = "0.5s";
+                box.style.opacity = "0";
+
+                setTimeout(() => {
+                    box.remove();
+                }, 500);
+            }
+
+        }, 3000);
+
+    </script>
+
+</body>
+
+</html>

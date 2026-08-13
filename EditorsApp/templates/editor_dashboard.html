@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editor Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-main: #090d16;
+            --bg-sidebar: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.4);
+            --card-border: rgba(255, 255, 255, 0.05);
+            --text-muted: #94a3b8;
+            --accent-glow: rgba(255, 255, 255, 0.03);
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.01em;
+            overflow-x: hidden;
+        }
+
+        /* SIDEBAR UPGRADE */
+        .sidebar {
+            width: 280px;
+            position: fixed;
+            height: 100vh;
+            background: var(--bg-sidebar);
+            padding: 30px 20px;
+            border-right: 1px solid var(--card-border);
+            z-index: 100;
+        }
+
+        .sidebar h5 {
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #fff;
+            padding-left: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-link-custom {
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-link-custom:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            transform: translateX(4px);
+        }
+
+        .nav-link-custom.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        /* MAIN CONTENT & ANIMATIONS */
+        .main-content {
+            margin-left: 280px;
+            padding: 50px;
+            min-height: 100vh;
+        }
+
+        .section h4 {
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+
+        /* Fade-in Animation for Switching Tabs */
+        .section {
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* REQUEST CARD UPGRADE */
+        .request-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid var(--card-border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .request-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(30, 41, 59, 0.6);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .request-card p {
+            margin-bottom: 8px;
+        }
+
+        .request-card p:last-of-type {
+            margin-bottom: 0;
+            color: #cbd5e1;
+        }
+
+        .request-card b {
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        /* Category Subtitle & Card Elements */
+        .card-header-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .card-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-desc {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-price {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* BUTTONS & BADGES UI */
+        .btn {
+            border-radius: 10px;
+            padding: 10px 24px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-success {
+            background: #10b981;
+            border: none;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            border: none;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+            border: none;
+            color: #0f172a !important;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .badge {
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.3px;
+        }
+
+        .bg-success {
+            background-color: rgba(16, 185, 129, 0.15) !important;
+            color: #34d399 !important;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        /* Staggered Card Animation Keyframe */
+        @keyframes cardReveal {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 991px) {
+            .sidebar {
+                width: 80px;
+                padding: 30px 10px;
+            }
+
+            .sidebar h5 {
+                display: none;
+            }
+
+            .nav-link-custom {
+                justify-content: center;
+                font-size: 1.2rem;
+                padding: 12px 0;
+            }
+
+            .nav-link-custom span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 80px;
+                padding: 30px;
+            }
+        }
+
+        /* COUNT */
+        .count-text {
+            color: #94a3b8;
+        }
+
+        /* LABEL */
+        .label-text {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        /* VALUE */
+        .value-text {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        /* DESCRIPTION */
+        .desc-text {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        /* BADGE */
+        .status-badge {
+            background: rgba(245, 158, 11, 0.15);
+            color: #facc15;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* CARD */
+        .upgraded-card {
+            padding: 22px;
+            transition: all 0.3s ease;
+            border-radius: 14px;
+        }
+
+        .upgraded-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* BUTTON IMPROVEMENT */
+        .accept-btn {
+            font-weight: 600;
+            padding: 10px;
+            border-radius: 10px;
+            transition: 0.25s ease;
+        }
+
+        .accept-btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* COUNT */
+        .count-text {
+            color: #94a3b8;
+        }
+
+        /* STATUS BADGE */
+        .status-success {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* BUTTON STYLE */
+        .action-btn {
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: 0.2s ease;
+        }
+
+        /* HOVER EFFECT */
+        .action-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        /* CARD */
+        .upgraded-card {
+            padding: 20px;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .upgraded-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* PRICE */
+        .card-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #22c55e;
+        }
+
+        /* PAID BADGE */
+        .status-paid {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* PENDING PAYMENT */
+        .status-pending-pay {
+            background: rgba(245, 158, 11, 0.15);
+            color: #facc15;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* CARD */
+        .upgraded-card {
+            padding: 20px;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .upgraded-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* COUNT */
+        .count-text {
+            color: #94a3b8;
+        }
+
+        /* CARD */
+        .rejected-card {
+            padding: 18px;
+            border-radius: 12px;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
+
+        /* HOVER */
+        .rejected-card:hover {
+            transform: translateY(-4px);
+            opacity: 1;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        /* BADGE */
+        .status-rejected {
+            display: inline-block;
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <h5><i class="bi bi-grid-1x2-fill text-primary"></i> Editor Dashboard</h5>
+
+        <nav class="nav flex-column">
+
+            <!-- ✅ NEW HOME BUTTON -->
+            <a href="{% url 'home' %}" class="nav-link-custom">
+                <i class="bi bi-house-door"></i> <span>Home</span>
+            </a>
+
+            <div class="nav-link-custom active" onclick="showSection('pending', this)">
+                ⏳ <span>Pending Requests</span>
+            </div>
+
+            <div class="nav-link-custom" onclick="showSection('accepted', this)">
+                ✅ <span>Accepted Projects</span>
+            </div>
+
+            <div class="nav-link-custom" onclick="showSection('delivered', this)">
+                📦 <span>Delivered Works</span>
+            </div>
+
+            <div class="nav-link-custom" onclick="showSection('rejected', this)">
+                ❌ <span>Rejected Logs</span>
+            </div>
+
+        </nav>
+    </aside>
+
+    <main class="main-content">
+
+        <div id="pending" class="section">
+            <h4 class="mb-4">
+                <i class="bi bi-hourglass-split text-warning me-2"></i>
+                Pending Requests <span class="count-text">({{ pending_count }})</span>
+            </h4>
+
+            {% for req in requests %}
+            {% if req.status == 'pending' %}
+            <div class="request-card upgraded-card">
+
+                <!-- HEADER -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="card-header-user text-white">
+                        <i class="bi bi-person-circle me-2 text-info"></i>
+                        {{ req.user.username }}
+                    </div>
+
+                    <span class="status-badge">Pending</span>
+                </div>
+
+                <!-- CATEGORY -->
+                <div class="mb-3">
+                    <span class="label-text">Category</span>
+                    <div class="value-text">
+                        <i class="bi bi-tag-fill me-1 text-secondary"></i>
+                        {{ req.category.name }}
+                    </div>
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div class="mb-4">
+                    <span class="label-text">Description</span>
+                    <div class="desc-text">
+                        {{ req.message }}
+                    </div>
+                </div>
+
+                <!-- ACTION -->
+                <div class="d-flex gap-2">
+
+                    <!-- ACCEPT -->
+                    <form method="POST" action="{% url 'accept_request' req.id %}">
+                        {% csrf_token %}
+                        <button class="btn btn-success btn-sm accept-btn">
+                            <i class="bi bi-check-lg me-1"></i> Accept
+                        </button>
+                    </form>
+
+                    <!-- REJECT -->
+                    <form method="POST" action="{% url 'reject_request' req.id %}">
+                        {% csrf_token %}
+                        <button class="btn btn-danger btn-sm reject-btn">
+                            <i class="bi bi-x-lg me-1"></i> Reject
+                        </button>
+                    </form>
+
+                </div>
+
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <div id="accepted" class="section" style="display:none;">
+            <h4 class="mb-4">
+                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                Accepted Projects <span class="count-text">({{ accepted_count }})</span>
+            </h4>
+
+            {% for req in requests %}
+            {% if req.status == 'accepted' %}
+            <div class="request-card upgraded-card">
+
+                <!-- HEADER -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="fw-semibold text-white">
+                        <i class="bi bi-person-circle me-2 text-info"></i>
+                        {{ req.user.username }}
+                    </div>
+
+                    <span class="status-success">
+                        <i class="bi bi-arrow-repeat me-1"></i> In Progress
+                    </span>
+                </div>
+
+                <!-- ACTION BUTTONS -->
+                <div class="d-flex gap-2">
+
+                    <!-- MESSAGE -->
+                    <a href="{% url 'inbox' %}?user={{ req.user.id }}" class="btn btn-primary btn-sm action-btn">
+                        <i class="bi bi-chat-dots-fill me-1"></i> Message
+                    </a>
+
+                    <!-- FINISH -->
+                    <a href="{% url 'finish_request' req.id %}" class="btn btn-warning btn-sm action-btn">
+                        <i class="bi bi-flag-fill me-1"></i> Finish
+                    </a>
+
+                </div>
+
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <div id="delivered" class="section" style="display:none;">
+            <h4 class="mb-4">
+                <i class="bi bi-box-seam text-primary me-2"></i>
+                Delivered Works
+            </h4>
+
+            {% for req in requests %}
+            {% if req.status == 'finished' or req.status == 'paid' %}
+            <div class="request-card upgraded-card d-flex justify-content-between align-items-center">
+
+                <!-- LEFT SIDE -->
+                <div>
+                    <div class="fw-semibold text-white mb-1">
+                        <i class="bi bi-person-circle me-2 text-info"></i>
+                        {{ req.user.username }}
+                    </div>
+
+                    <div class="small text-secondary">
+                        Work delivered successfully
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE -->
+                <div class="text-end">
+                    <div class="card-price mb-1">
+                        ₹{{ req.amount }}
+                    </div>
+
+                    {% if req.status == 'paid' %}
+                    <span class="status-paid">Paid</span>
+                    {% else %}
+                    <span class="status-pending-pay">Awaiting Payment</span>
+                    {% endif %}
+                </div>
+
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div id="delivered" class="section" style="display:none;">
+            <h4 class="mb-4">
+                <i class="bi bi-box-seam text-primary me-2"></i>
+                Delivered Works
+            </h4>
+
+            {% for req in requests %}
+            {% if req.status == 'finished' or req.status == 'paid' %}
+            <div class="request-card upgraded-card d-flex justify-content-between align-items-center">
+
+                <!-- LEFT SIDE -->
+                <div>
+                    <div class="fw-semibold text-white mb-1">
+                        <i class="bi bi-person-circle me-2 text-info"></i>
+                        {{ req.user.username }}
+                    </div>
+
+                    <div class="small text-secondary">
+                        Work delivered successfully
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE -->
+                <div class="text-end">
+                    <div class="card-price mb-1">
+                        ₹{{ req.amount }}
+                    </div>
+
+                    {% if req.status == 'paid' %}
+                    <span class="status-paid">Paid</span>
+                    {% else %}
+                    <span class="status-pending-pay">Awaiting Payment</span>
+                    {% endif %}
+                </div>
+
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <div id="rejected" class="section" style="display:none;">
+            <h4 class="mb-4">
+                <i class="bi bi-x-circle-fill text-danger me-2"></i>
+                Rejected Requests <span class="count-text">({{ rejected_count }})</span>
+            </h4>
+
+            {% for req in requests %}
+            {% if req.status == 'rejected' %}
+            <div class="request-card rejected-card">
+
+                <!-- USER -->
+                <div class="card-header-user text-white mb-1">
+                    <i class="bi bi-person-circle me-2 text-danger"></i>
+                    {{ req.user.username }}
+                </div>
+
+                <!-- MESSAGE -->
+                <div class="small text-secondary mb-2">
+                    Request was declined by the editor
+                </div>
+
+                <!-- STATUS -->
+                <span class="status-rejected">
+                    <i class="bi bi-x-lg me-1"></i> Rejected
+                </span>
+
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+    </main>
+
+    <script>
+        function showSection(sectionId, element) {
+            // Hide all sections smoothly
+            document.querySelectorAll('.section').forEach(sec => {
+                sec.style.display = 'none';
+            });
+
+            // Show selected section
+            const activeSection = document.getElementById(sectionId);
+            activeSection.style.display = 'block';
+
+            // Trigger structural content component reveal animation sequence safely
+            activeSection.querySelectorAll('.request-card').forEach((card, idx) => {
+                card.style.animation = 'none';
+                card.offsetHeight; /* Trigger layout reflow execution */
+                card.style.animation = `cardReveal 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards`;
+                card.style.animationDelay = `${idx * 0.04}s`;
+            });
+
+            // Handle active sidebar state tracking
+            document.querySelectorAll('.nav-link-custom').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            element.classList.add('active');
+        }
+    </script>
+
+</body>
+
+</html>

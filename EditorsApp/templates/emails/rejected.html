@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Application Update</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            background:
+                radial-gradient(circle at top left, rgba(239, 68, 68, .18), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(249, 115, 22, .14), transparent 30%),
+                #f8fafc;
+
+            padding: 50px 20px;
+
+            font-family: 'Poppins', sans-serif;
+
+            color: #0f172a;
+        }
+
+        .mail-container {
+
+            max-width: 720px;
+
+            margin: auto;
+
+            background: rgba(255, 255, 255, .94);
+
+            border-radius: 32px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 20px 50px rgba(15, 23, 42, .12),
+                0 10px 25px rgba(239, 68, 68, .08);
+
+            border: 1px solid rgba(255, 255, 255, .9);
+
+            animation: fadeUp .6s ease;
+        }
+
+        @keyframes fadeUp {
+
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+
+            position: relative;
+
+            background: linear-gradient(135deg, #ef4444, #f97316);
+
+            padding: 50px 40px;
+
+            overflow: hidden;
+
+            color: white;
+        }
+
+        .header::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 260px;
+            height: 260px;
+
+            background: rgba(255, 255, 255, .08);
+
+            border-radius: 50%;
+
+            top: -120px;
+            right: -80px;
+        }
+
+        .header::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+            height: 180px;
+
+            background: rgba(255, 255, 255, .05);
+
+            border-radius: 50%;
+
+            bottom: -80px;
+            left: -50px;
+        }
+
+        .badge {
+
+            position: relative;
+
+            z-index: 2;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            background: rgba(255, 255, 255, .14);
+
+            padding: 10px 18px;
+
+            border-radius: 999px;
+
+            font-size: .92rem;
+
+            font-weight: 600;
+
+            margin-bottom: 24px;
+
+            backdrop-filter: blur(10px);
+        }
+
+        .title {
+
+            position: relative;
+
+            z-index: 2;
+
+            font-size: 2.4rem;
+
+            font-weight: 800;
+
+            margin-bottom: 12px;
+
+            line-height: 1.2;
+        }
+
+        .subtitle {
+
+            position: relative;
+
+            z-index: 2;
+
+            color: rgba(255, 255, 255, .84);
+
+            line-height: 1.7;
+
+            font-size: 1rem;
+
+            max-width: 520px;
+        }
+
+        .content {
+
+            padding: 42px;
+        }
+
+        .greeting {
+
+            font-size: 1.05rem;
+
+            margin-bottom: 18px;
+
+            color: #334155;
+
+            line-height: 1.8;
+        }
+
+        .username {
+
+            font-weight: 700;
+
+            color: #ef4444;
+        }
+
+        .info-box {
+
+            background: linear-gradient(135deg,
+                    rgba(239, 68, 68, .08),
+                    rgba(249, 115, 22, .08));
+
+            border: 1px solid rgba(239, 68, 68, .12);
+
+            border-radius: 22px;
+
+            padding: 28px;
+
+            margin: 28px 0;
+        }
+
+        .info-title {
+
+            font-size: 1rem;
+
+            font-weight: 700;
+
+            color: #dc2626;
+
+            margin-bottom: 14px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .reason-box {
+
+            background: rgba(255, 255, 255, .72);
+
+            border-radius: 18px;
+
+            padding: 24px;
+
+            line-height: 1.9;
+
+            color: #475569;
+
+            border-left: 5px solid #ef4444;
+
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8);
+        }
+
+        .message {
+
+            font-size: 1rem;
+
+            line-height: 1.9;
+
+            color: #475569;
+
+            margin-top: 20px;
+        }
+
+        .button-area {
+
+            margin-top: 38px;
+        }
+
+        .btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            padding: 16px 30px;
+
+            background: linear-gradient(45deg, #2563eb, #7c3aed);
+
+            color: white !important;
+
+            text-decoration: none;
+
+            border-radius: 18px;
+
+            font-weight: 700;
+
+            font-size: .95rem;
+
+            transition: .35s ease;
+
+            box-shadow: 0 15px 35px rgba(37, 99, 235, .2);
+        }
+
+        .btn:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 18px 40px rgba(37, 99, 235, .28),
+                0 10px 25px rgba(124, 58, 237, .18);
+        }
+
+        .tips-box {
+
+            margin-top: 40px;
+
+            background: #f8fafc;
+
+            border-radius: 22px;
+
+            padding: 24px;
+
+            border: 1px solid rgba(148, 163, 184, .12);
+        }
+
+        .tips-title {
+
+            font-weight: 700;
+
+            margin-bottom: 14px;
+
+            color: #0f172a;
+        }
+
+        .tips-list {
+
+            padding-left: 18px;
+
+            color: #475569;
+
+            line-height: 2;
+        }
+
+        .footer {
+
+            margin-top: 45px;
+
+            padding-top: 24px;
+
+            border-top: 1px solid rgba(148, 163, 184, .15);
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            flex-wrap: wrap;
+
+            gap: 20px;
+        }
+
+        .footer-text {
+
+            color: #64748b;
+
+            font-size: .92rem;
+
+            line-height: 1.7;
+        }
+
+        .footer-badge {
+
+            background: linear-gradient(45deg, #ef4444, #f97316);
+
+            color: white;
+
+            padding: 12px 20px;
+
+            border-radius: 14px;
+
+            font-size: .9rem;
+
+            font-weight: 700;
+
+            box-shadow: 0 10px 20px rgba(239, 68, 68, .18);
+        }
+
+        @media(max-width:768px) {
+
+            .header {
+                padding: 38px 25px;
+            }
+
+            .content {
+                padding: 28px 22px;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .footer {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="mail-container">
+
+        <div class="header">
+
+            <div class="badge">
+
+                Editors Hub Review System
+
+            </div>
+
+            <div class="title">
+
+                Application Update
+
+            </div>
+
+            <div class="subtitle">
+
+                Your editor profile application has been reviewed by our team.
+                Please see the details below.
+
+            </div>
+
+        </div>
+
+        <div class="content">
+
+            <div class="greeting">
+
+                Hi <span class="username">{{ username }}</span>,
+
+                <br><br>
+
+                Thank you for applying to become an editor on Editors Hub.
+                After reviewing your application, we were unable to approve it at this time.
+
+            </div>
+
+            <div class="info-box">
+
+                <div class="info-title">
+
+                    Review Feedback
+
+                </div>
+
+                <div class="reason-box">
+
+                    {{ reason }}
+
+                </div>
+
+            </div>
+
+            <div class="message">
+
+                Don't worry — you can improve your profile, update the required details,
+                and submit your application again for another review.
+
+            </div>
+
+            <div class="button-area">
+
+                <a href="http://127.0.0.1:8000/" class="btn">
+
+                    Update Profile
+
+                </a>
+
+            </div>
+
+            <div class="tips-box">
+
+                <div class="tips-title">
+
+                    Tips For Reapplying
+
+                </div>
+
+                <ul class="tips-list">
+
+                    <li>Add a professional profile image</li>
+
+                    <li>Upload better quality work samples</li>
+
+                    <li>Improve profile description and details</li>
+
+                    <li>Ensure category and pricing are correct</li>
+
+                </ul>
+
+            </div>
+
+            <div class="footer">
+
+                <div class="footer-text">
+
+                    This email was automatically generated by the
+                    Editors Hub Application Review System.
+                </div>
+
+                <div class="footer-badge">
+
+                    Editors Hub © 2026
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

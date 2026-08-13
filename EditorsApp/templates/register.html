@@ -1,0 +1,233 @@
+{% load static %}
+<video autoplay muted loop playsinline>
+    <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
+</video>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REGISTER</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+        }
+
+        video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(5px) brightness(70%);
+            z-index: -1;
+        }
+
+        .register-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 440px;
+            color: white;
+        }
+
+        .register-box h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 30px;
+            row-gap: 15px;
+        }
+
+        .input-box input,
+        .input-box select,
+        .input-box textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #2575fc;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #6a11cb;
+        }
+
+        .login-text {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
+        }
+
+        .login-text a {
+            color: #2575fc;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .login-text a:hover {
+            text-decoration: underline;
+        }
+
+        .errorlist {
+            color: red;
+            font-size: 12px;
+            list-style: none;
+            margin: 5px 0 0 0;
+            padding: 0;
+        }
+
+        .input-box input:focus {
+            border-color: #2575fc;
+            outline: none;
+            box-shadow: 0 0 5px rgba(37, 117, 252, 0.5);
+        }
+
+        .input-box {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <video autoplay muted loop>
+        <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
+    </video>
+
+    <div class="register-box">
+
+        <h2>Sign Up</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            {% if messages %}
+            {% for message in messages %}
+
+            {% if message.tags == 'error' %}
+            <div
+                style="background:#ffe6e6; color:#cc0000; padding:10px; border-radius:5px; margin-bottom:15px; text-align:center;">
+                {% elif message.tags == 'success' %}
+                <div
+                    style="background:#e6ffed; color:#2e7d32; padding:10px; border-radius:5px; margin-bottom:15px; text-align:center;">
+                    {% else %}
+                    <div
+                        style="background:#e6f0ff; color:#004085; padding:10px; border-radius:5px; margin-bottom:15px; text-align:center;">
+                        {% endif %}
+
+                        {{ message }}
+
+                    </div>
+
+                    {% endfor %}
+                    {% endif %}
+
+                    <div class="form-grid">
+
+                        <div class="input-box">
+                            {{ form.name }}
+                            {{ form.name.errors }}
+                        </div>
+
+                        <div class="input-box">
+                            {{ form.username }}
+                            {{ form.username.errors }}
+                        </div>
+
+                        <div class="input-box">
+                            {{ form.email }}
+                            {{ form.email.errors }}
+                        </div>
+
+                        <div class="input-box">
+                            {{ form.phone }}
+                            {{ form.phone.errors }}
+                        </div>
+
+                        <div class="input-box">
+                            {{ form.gender }}
+                            {{ form.gender.errors }}
+                        </div>
+
+                        <div class="input-box">
+                            {{ form.age }}
+                            {{ form.age.errors }}
+                        </div>
+
+                        <div class="input-box">
+                            {{ form.password1 }}
+                            {{ form.password1.errors }}
+                            <small style="font-size:11px; color: white;">
+                                Password must be at least 8 characters
+                            </small>
+                        </div>
+
+                        <div class="input-box">
+                            {{ form.password2 }}
+                            {{ form.password2.errors }}
+                        </div>
+
+                    </div>
+
+                    <button type="submit" id="submitBtn">
+                        Sign Up
+                    </button>
+
+                    <p class="login-text">
+                        Already have an account? <a href="{% url 'login' %}">Login</a>
+                    </p>
+
+        </form>
+
+    </div>
+
+</body>
+
+<script>
+    const form = document.querySelector("form");
+    const submitBtn = document.getElementById("submitBtn");
+
+    form.addEventListener("submit", function () {
+
+        // 🚫 Prevent double click
+        submitBtn.disabled = true;
+
+        // 🎬 Loading effect
+        submitBtn.innerHTML = "Sending OTP...";
+
+        // 🔥 Optional style
+        submitBtn.style.opacity = "0.7";
+        submitBtn.style.cursor = "not-allowed";
+    });
+</script>
+
+</html>
